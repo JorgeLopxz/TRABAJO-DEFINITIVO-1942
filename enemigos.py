@@ -155,3 +155,30 @@ class Superbombardero(Enemigos):
                 self.direccion = -1
             elif self.x <= 0:
                 self.direccion = 1
+
+
+class MiniBoss(Enemigos):
+    def __init__(self, x, y, tipo="MINIBOSS"):
+        super().__init__(x, y, tipo)
+        self.size_avion_x = 48
+        self.size_avion_y = 28
+        self.velocidad = 1.2
+        self.vidas = 40
+        self.entrada_completa = False
+        self.disparo_cooldown = 0
+        self.fase = 0.0
+
+    def movimiento(self):
+        if not self.entrada_completa:
+            self.y += 0.8
+            if self.y >= 28:
+                self.entrada_completa = True
+            return
+
+        self.fase += 0.04
+        self.x += self.velocidad * self.direccion
+        self.y += pyxel.sin(self.fase * 30) * 0.2
+        if self.x >= 255 - self.size_avion_x:
+            self.direccion = -1
+        elif self.x <= 0:
+            self.direccion = 1
